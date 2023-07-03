@@ -33,9 +33,9 @@ func (r OrderRepository) Add(ctx context.Context, order *models.Order) error {
 	const query = `INSERT INTO %s (
 order_id, customer_id, customer_name,
 items, status, product_ids, store_ids,
-created_at VALUES (
+created_at) VALUES (
 $1, $2, $3,
-$4, $5, $6, $7
+$4, $5, $6, $7,
 $8
 )`
 	items, err := json.Marshal(order.Items)
@@ -54,7 +54,8 @@ $8
 		storeIDs = append(storeIDs, storeID)
 	}
 
-	_, err = r.db.ExecContext(ctx, r.table(query),
+	q := r.table(query)
+	_, err = r.db.ExecContext(ctx, q,
 		order.OrderID, order.CustomerID, order.CustomerName,
 		items, order.Status, productIDs, storeIDs,
 		order.CreatedAt,

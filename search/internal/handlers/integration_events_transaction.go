@@ -51,7 +51,7 @@ func RegisterIntegrationEventHandlersTx(container di.Container) (err error) {
 		orderingpb.OrderReadiedEvent,
 		orderingpb.OrderCanceledEvent,
 		orderingpb.OrderCompletedEvent,
-	}, am.GroupName("notification-orders")); err != nil {
+	}, am.GroupName("search-orders")); err != nil {
 		return
 	}
 
